@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+
+</head>
+<body>
+<div class="title">Case Converter</div>
+<textarea id="textarea"></textarea>
+<div>
+    <button id="upper-case">Upper Case</button>
+    <button id="lower-case">Lower Case</button>
+    <button id="proper-case">Proper Case</button>
+    <button id="sentence-case">Sentence Case</button>
+    <button id="save-text-file">Save Text File </button>
+</div>
+<script>
+    document.getElementById('upper-case').addEventListener('click', myFunctionA)
+    function myFunctionA(){
+        var myText = document.querySelector("textarea").value.toUpperCase();
+        document.querySelector("textarea").value = myText;
+    }
+
+    document.getElementById('lower-case').addEventListener('click', myFunctionB)
+    function myFunctionB(){
+        var myText = document.querySelector("textarea").value.toLowerCase();
+        document.querySelector("textarea").value = myText;
+    }
+
+    document.getElementById('proper-case').addEventListener('click', myFunctionC)
+    function myFunctionC(){
+        let sentence = document.querySelector("textarea").value.toLowerCase().split(' ');
+        for (let i = 0; i < sentence.length; i++) {sentence[i] = sentence[i][0].toUpperCase() + sentence[i].slice(1);}
+        return document.querySelector("textarea").value = sentence.join(" ");
+    }
+
+    document.getElementById('sentence-case').addEventListener('click', myFunctionD)
+    function myFunctionD(){
+        let sentence = document.querySelector("textarea").value.toLowerCase().replace(/(\.+|:|!|\?)("*|'*|\)*|}*|]*)(\s|\n|\r|\r\n)/gm, "$1$2|").split("|");
+        for (let i = 0; i < sentence.length; i++) {
+            sentence[i] = sentence[i].charAt(0).toUpperCase() + sentence[i].slice(1);}
+        return document.querySelector("textarea").value = sentence.join(' ');
+    }
+
+    document.getElementById('save-text-file').addEventListener('click', myFunctionE)
+
+    function myFunctionE(filename, text = document.querySelector("textarea").value) {
+        let element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename="text.txt");
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+    }
+</script>
+
+</body>
+</html>
